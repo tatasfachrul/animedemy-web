@@ -1,14 +1,17 @@
 import React, { Component } from 'react';
 import {Route} from "react-router-dom";
 import './App.css';
-import homepage from "./screens/HomePage"
-import $ from 'jquery'
+
+import login from "./screens/Login"
+import register from "./screens/Register"
+
 
 class App extends Component {
   render() {
     return (
       <div>
-        <Route exact path="/" component={homepage} />
+          <Route  exact path="/" component={register} />
+          
       </div>
     );
   }
