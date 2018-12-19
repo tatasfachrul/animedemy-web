@@ -1,20 +1,27 @@
-import React, { Component } from 'react';
-import {Route} from "react-router-dom";
-import './App.css';
+import React from 'react';
+import reactDOM from 'react-dom';
 
-import login from "./screens/Login"
-import register from "./screens/Register"
+class App extends React {
 
+  constructor(props) {
+    super(props);
+    this.state = {
+      isLoginOpen: true,
+      isRegisterOpen: false
+    };
+  }
 
-class App extends Component {
   render() {
+
     return (
-      <div>
-          <Route  exact path="/" component={register} />
-          
+      <div className="root-container">
+ 
       </div>
     );
   }
 }
+
+reactDOM.render(
+  <App />, document.getElementById("root"));
 
 export default App;
