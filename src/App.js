@@ -4,15 +4,19 @@ import './App.css';
 
 import login from "./screens/Login"
 import register from "./screens/Register"
+import home from "./screens/Home"
 
+import store from './redux/store'
+import {Provider} from 'react-redux'
 
 class App extends Component {
   render() {
     return (
+      <Provider store={store}>
       <div>
-          <Route  exact path="/" component={register} />
-          
+          <Route  exact path="/" component={login} />
       </div>
+      </Provider>
     );
   }
 }
