@@ -11,7 +11,8 @@ class Register extends Component {
     const passR = e.target.passwordR.value;
     const username = e.target.username.value;
     const name = e.target.name.value;
-    const hostServer = "192.168.1.116:3333";
+	const hostServer = "192.168.1.116:3333";
+	// const hostServer = "192.168.43.208:3333";
 
     let err = false;
     let res = null;

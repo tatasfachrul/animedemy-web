@@ -6,7 +6,8 @@ class Login extends Component {
     e.preventDefault();
     const email = e.target.username.value;
     const password = e.target.password.value;
-    const hostServer = "192.168.1.116:3333";
+	  const hostServer = "192.168.1.116:3333";
+	// const hostServer = "192.168.43.208:3333";
     let err = false;
     let res = null;
 
