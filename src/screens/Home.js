@@ -37,7 +37,7 @@ import GridList from "@material-ui/core/GridList";
 import GridListTile from "@material-ui/core/GridListTile";
 
 // Import another file
-import Header from "./components/Header"
+// import Header from "./components/Header"
 
 const categories = ["Action", "Drama", "Adventure", "Romance"];
 const slides = [
