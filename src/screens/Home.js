@@ -383,7 +383,7 @@ class Home extends Component {
                 <Slider {...settings}>
                   {this.props.videos.results_videos.map((item, i) => (
                     <div style={{ position: "absolute" }}>
-                      <Link to={"/detail/"+item.id}>
+                      <Link to={"/detailvideos/"+item.id}>
                       <img
                         src={item.image_url}
                         style={{ height: 150, width: "98%" }}
