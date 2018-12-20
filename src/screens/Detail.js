@@ -30,6 +30,9 @@ import Slider from "react-slick";
 
 import GridList from "@material-ui/core/GridList";
 import GridListTile from "@material-ui/core/GridListTile";
+import Paper from '@material-ui/core/Paper';
+import Grid from '@material-ui/core/Grid';
+
 
 const categories = ["Action", "Drama", "Adventure", "Romance"];
 const slides = [
@@ -52,6 +55,13 @@ const slides = [
     description: "Naruto Jiraiya Kakashi Tsunade Iruka Sasuke"
   }
 ];
+const detail = {
+  series: "Naruto",
+  image: require("../assets/images/ANIMEDEMY.png"),
+  description:
+    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin efficitur diam sed nunc porttitor cursus. Pellentesque auctor fringilla ligula, sed tincidunt diam mattis eleifend. Fusce in ante lectus. Etiam nisl nibh, volutpat vel sodales at, finibus vel massa. Nullam turpis lectus, semper vel nunc et, fringilla egestas quam. Sed vel orci mauris. Phasellus turpis ipsum, viverra non justo ut, scelerisque consequat elit. Quisque tincidunt mattis metus cursus pretium."
+};
+
 const movies = [
   {
     series: "Naruto",
@@ -142,8 +152,8 @@ const styles = theme => ({
     backgroundColor: "#000000"
   },
   header: {
-    backgroundColor: "rgba(0,0,0,0.5)",
-    position: "absolute"
+    backgroundColor: "rgba(0,0,0,0.5)"
+    // position: "absolute"
   },
   grow: {
     flexGrow: 1
@@ -192,7 +202,12 @@ const styles = theme => ({
     [theme.breakpoints.up("md")]: {
       display: "none"
     }
-  }
+  },
+  paper: {
+    padding: theme.spacing.unit * 2,
+    textAlign: 'center',
+    color: theme.palette.text.secondary,
+  },
 });
 
 class Detail extends Component {
@@ -267,7 +282,7 @@ class Detail extends Component {
 
     return (
       <div className={classes.root}>
-      {/* Header Section */}
+        {/* Header Section */}
         <AppBar position="static" className={classes.header}>
           <Toolbar>
             <div className={classes.divImageHeader}>
@@ -344,9 +359,43 @@ class Detail extends Component {
         {renderMobileMenuCategory}
 
         {/* Body Section */}
-        <div style={{ marginTop: 0 }}>
+        <div style={{ marginTop: 10, flexDirection: "row", flex: 1 }}>
+          {/* Profile Image Section */}
+
           
+         
+          
+          <Grid container spacing={8}>
+        {/* Logo */}
+        <Grid item xs={8} sm={2}>
+          <img
+            src={detail.image}
+            alt=""
+            style={{
+              paddingLeft: 40,
+              paddingRight: 40,
+              border: 20,
+              backdropFilter: "#ff5c33",
+              height: "100%",
+              width: "100%"
+            }}
+          />  
+        </Grid>
+        {/* Title series & Description */}
+        <Grid item xs={8} sm={8}>
+          <div><h2>{detail.series}</h2></div>
+          <div><h5>{detail.description}</h5></div>
+        </Grid>
+
+        <Grid item xs={8} sm={2}>
+        <h1>4.7/5</h1>
+        <h4>Score Rating!</h4>
+        </Grid>
+       
+      </Grid>
         </div>
+
+        {/* Slider Category */}
         <div style={{ background: "linear-gradient( #000000, #1a222e)" }}>
           <div style={{ paddingLeft: 40, paddingRight: 40 }}>
             {movies.map((row, i) => (
