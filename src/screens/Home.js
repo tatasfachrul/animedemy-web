@@ -39,113 +39,36 @@ import GridListTile from "@material-ui/core/GridListTile";
 // Import another file
 import { connect } from 'react-redux'
 import { ALL_VIDEOS } from '../redux/action/video'
+import { GET_VIDEOS_BY_CATEGORY } from '../redux/action/video'
+import { GET_VIDEOS_TRENDING } from '../redux/action/video'
+import { GET_VIDEOS_POPULAR } from '../redux/action/video'
 import LinearProgress from '@material-ui/core/LinearProgress'
 
 const categories = ["Action", "Drama", "Adventure", "Romance"];
 const slides = [
   {
     image: require("../assets/images/1.jpg"),
-    title: "Naruto Shippuden Eps 1",
-    series: "Naruto",
-    description: "Naruto Jiraiya Kakashi Tsunade Iruka Sasuke"
+    series: "Naruto Shippuden",
+    title: "Complete",
+    description: " ",
+    id:0
   },
   {
-    image: require("../assets/images/1.jpg"),
-    title: "Naruto Shippuden Eps 1",
-    series: "Naruto",
-    description: "Naruto Jiraiya Kakashi Tsunade Iruka Sasuke"
+    image: require("../assets/images/2.jpg"),
+    series: "ONE PIECE",
+    title: "Ongoing",
+    description: " ",
+    id:0
   },
   {
-    image: require("../assets/images/1.jpg"),
-    title: "Naruto Shippuden Eps 1",
-    series: "Naruto",
-    description: "Naruto Jiraiya Kakashi Tsunade Iruka Sasuke"
+    image: require("../assets/images/3.jpg"),
+    series: "BLACK CLOVER",
+    title: "Ongoing",
+    description: " ",
+    id:0
   }
 ];
-const movies = [
-  {
-    series: "Naruto",
-    category: "Action",
-    videos: [
-      {
-        title: "Naruto Eps 1",
-        imbd_score: 9.0,
-        image: require("../assets/images/1.jpg")
-      },
-      {
-        title: "Naruto Eps 2",
-        imbd_score: 8.0,
-        image: require("../assets/images/1.jpg")
-      },
-      {
-        title: "Naruto Eps 3",
-        imbd_score: 8.0,
-        image: require("../assets/images/1.jpg")
-      },
-      {
-        title: "Naruto Eps 4",
-        imbd_score: 9.0,
-        image: require("../assets/images/1.jpg")
-      },
-      {
-        title: "Naruto Eps 5",
-        imbd_score: 8.5,
-        image: require("../assets/images/1.jpg")
-      },
-      {
-        title: "Naruto Eps 6",
-        imbd_score: 9.0,
-        image: require("../assets/images/1.jpg")
-      },
-      {
-        title: "Naruto Eps 7",
-        imbd_score: 9.0,
-        image: require("../assets/images/1.jpg")
-      }
-    ]
-  },
-  {
-    series: "Naruto",
-    category: "Adventure",
-    videos: [
-      {
-        title: "Naruto Eps 1",
-        imbd_score: 9.0,
-        image: require("../assets/images/1.jpg")
-      },
-      {
-        title: "Naruto Eps 2",
-        imbd_score: 8.0,
-        image: require("../assets/images/1.jpg")
-      },
-      {
-        title: "Naruto Eps 3",
-        imbd_score: 8.0,
-        image: require("../assets/images/1.jpg")
-      },
-      {
-        title: "Naruto Eps 4",
-        imbd_score: 9.0,
-        image: require("../assets/images/1.jpg")
-      },
-      {
-        title: "Naruto Eps 5",
-        imbd_score: 8.5,
-        image: require("../assets/images/1.jpg")
-      },
-      {
-        title: "Naruto Eps 6",
-        imbd_score: 9.0,
-        image: require("../assets/images/1.jpg")
-      },
-      {
-        title: "Naruto Eps 7",
-        imbd_score: 9.0,
-        image: require("../assets/images/1.jpg")
-      }
-    ]
-  }
-];
+
 const styles = theme => ({
   root: {
     width: "100%",
@@ -208,7 +131,8 @@ const styles = theme => ({
 class Home extends Component {
   componentDidMount(){
     this.props.dispatch(ALL_VIDEOS())
-    
+    this.props.dispatch(GET_VIDEOS_TRENDING())
+    this.props.dispatch(GET_VIDEOS_POPULAR())
   }
 
   state = {
@@ -378,7 +302,7 @@ class Home extends Component {
             {/* maps carousel */}
             {slides.map((row, i) => (
               <div>
-                <img src={row.image} />
+                <img style={{height:540}}src={row.image} />
                 <BackgroundShadow />
                 <div
                   style={{
@@ -412,6 +336,7 @@ class Home extends Component {
                   >
                     {row.title}
                   </p>
+                  <Link to={"detaileps/"+row.id}>
                   <Button
                     style={{
                       width: 120,
@@ -420,8 +345,9 @@ class Home extends Component {
                       color: "#fff"
                     }}
                   >
-                    <PlayArrow /> Play
+                    <PlayArrow /> List episode
                   </Button>
+                  </Link>
                   <p
                     style={{
                       fontSize: 20,
@@ -447,23 +373,72 @@ class Home extends Component {
               
         <div style={{ background: "linear-gradient( #000000, #1a222e)" }}>
           <div style={{ paddingLeft: 40, paddingRight: 40 }}>
-            {movies.map((row, i) => (
+
+            {/* new updates */}
+            {
               <div style={{ marginTop: 30 }}>
                 <h2 style={{ margin: 10, color: "#fff", fontWeight: "normal" }}>
-                  {row.category}
+                  New Updates
                 </h2>
                 <Slider {...settings}>
-                  {row.videos.map((item, i) => (
+                  {this.props.videos.results_videos.map((item, i) => (
                     <div style={{ position: "absolute" }}>
+                      <Link to={"/detail/"+item.id}>
                       <img
-                        src={item.image}
+                        src={item.image_url}
                         style={{ height: 150, width: "98%" }}
                       />
+                      <p style={{color:"white"}}>{item.title}</p>
+                      </Link>
                     </div>
                   ))}
                 </Slider>
               </div>
-            ))}
+            }
+
+            {/* slider popular */}
+            {
+              <div style={{ marginTop: 30 }}>
+                <h2 style={{ margin: 10, color: "#fff", fontWeight: "normal" }}>
+                  Popular
+                </h2>
+                <Slider {...settings}>
+                  {this.props.videos.results_videos_popular.map((item, i) => (
+                    <div style={{ position: "absolute" }}>
+                      <Link to={"/detailvideos/"+item.id}>
+                      <img
+                        src={item.image_url}
+                        style={{ height: 150, width: "98%" }}
+                      />
+                      <p style={{color:"white"}}>{item.title}</p>
+                      </Link>
+                    </div>
+                  ))}
+                </Slider>
+              </div>
+            }
+
+              {/* slider trending*/}
+               {
+              <div style={{ marginTop: 30 }}>
+                <h2 style={{ margin: 10, color: "#fff", fontWeight: "normal" }}>
+                  Trending
+                </h2>
+                <Slider {...settings}>
+                  {this.props.videos.results_videos_trending.map((item, i) => (
+                    <div style={{ position: "absolute" }}>
+                      <Link to={"/detailvideos/"+item.id}>
+                      <img
+                        src={item.image_url}
+                        style={{ height: 150, width: "98%" }}
+                      />
+                      <p style={{color:"white"}}>{item.title}</p>
+                      </Link>
+                    </div>
+                  ))}
+                </Slider>
+              </div>
+            }
           </div>
 
 
