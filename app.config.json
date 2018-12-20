@@ -1,10 +1,10 @@
 {
-    apps : [
+    "apps" : [
       {
-        name      : "your-app",
-        script    : "npx",
-        interpreter: "none",
-        args: "serve -p 8443 -T"
+        "name"     : "your-app",
+        "script"   : "npx",
+        "interpreter": "none",
+        "args": "serve -p 8443 -T"
       }
     ]
   }
