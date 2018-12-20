@@ -14,11 +14,11 @@ export default function categoryReducer(state=initialState, action){
       case "ALL_CATEGORIES_REJECTED":
           return {...state, isLoading:false, isError:true}
 
-      case "ALL_CATEGORY_PENDING":
+      case "GET_CATEGORY_PENDING":
           return {...state, isLoading:true}
-      case "ALL_CATEGORY_FULFILLED":
+      case "GET_CATEGORY_FULFILLED":
           return {...state, isLoading:true,results: action.payload.data}
-      case "ALL_CATEGORY_REJECTED":
+      case "GET_CATEGORY_REJECTED":
           return {...state, isLoading:false, isError:true}
 
       default:

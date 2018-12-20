@@ -14,11 +14,11 @@ export default function videoReducer(state=initialState, action){
       case "ALL_VIDEOS_REJECTED":
           return {...state, isLoading:false, isError:true}
 
-      case "ALL_VIDEO_PENDING":
+      case "GET_VIDEO_PENDING":
           return {...state, isLoading:true}
-      case "ALL_VIDEO_FULFILLED":
+      case "GET_VIDEO_FULFILLED":
           return {...state, isLoading:true,results: action.payload.data}
-      case "ALL_VIDEO_REJECTED":
+      case "GET_VIDEO_REJECTED":
           return {...state, isLoading:false, isError:true}
 
       default:

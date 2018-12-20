@@ -143,7 +143,7 @@ const styles = theme => ({
   },
   header: {
     backgroundColor: "rgba(0,0,0,0.5)",
-    position: "fixed"
+    position: "absolute"
   },
   grow: {
     flexGrow: 1
@@ -267,6 +267,7 @@ class Detail extends Component {
 
     return (
       <div className={classes.root}>
+      {/* Header Section */}
         <AppBar position="static" className={classes.header}>
           <Toolbar>
             <div className={classes.divImageHeader}>
@@ -341,76 +342,10 @@ class Detail extends Component {
         </AppBar>
         {renderMobileMenu}
         {renderMobileMenuCategory}
+
+        {/* Body Section */}
         <div style={{ marginTop: 0 }}>
-          <Carousel
-            dynamicHeight
-            infiniteLoop
-            showThumbs={false}
-            showStatus={false}
-            showIndicators={false}
-            autoPlay={true}
-            interval={3000}
-          >
-            {slides.map((row, i) => (
-              <div>
-                <img src={row.image} />
-                <BackgroundShadow />
-                <div
-                  style={{
-                    zIndex: 51,
-                    backgroundColor: "transparent",
-                    position: "absolute",
-                    width: "50%",
-                    top: "20%",
-                    left: 50,
-                    textAlign: "left"
-                  }}
-                >
-                  <p
-                    style={{
-                      fontSize: 40,
-                      fontWeight: "bold",
-                      padding: 0,
-                      margin: 5,
-                      color: "#fff"
-                    }}
-                  >
-                    {row.series}
-                  </p>
-                  <p
-                    style={{
-                      fontSize: 30,
-                      padding: 0,
-                      margin: 5,
-                      color: "#fff"
-                    }}
-                  >
-                    {row.title}
-                  </p>
-                  <Button
-                    style={{
-                      width: 120,
-                      fontWeight: "bold",
-                      backgroundColor: "#00c0c1",
-                      color: "#fff"
-                    }}
-                  >
-                    <PlayArrow /> Play
-                  </Button>
-                  <p
-                    style={{
-                      fontSize: 20,
-                      padding: 0,
-                      margin: 5,
-                      color: "#fff"
-                    }}
-                  >
-                    {row.description}
-                  </p>
-                </div>
-              </div>
-            ))}
-          </Carousel>
+          
         </div>
         <div style={{ background: "linear-gradient( #000000, #1a222e)" }}>
           <div style={{ paddingLeft: 40, paddingRight: 40 }}>
@@ -432,6 +367,8 @@ class Detail extends Component {
               </div>
             ))}
           </div>
+
+          {/* Footer Section */}
           <div>
             <GridList
               cols={12}
