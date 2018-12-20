@@ -2,14 +2,7 @@ import React, { Component } from "react";
 
 // Import core component
 import { AppBar, Toolbar, IconButton, InputBase, MenuItem, Menu, Badge, withStyles } from "@material-ui/core";
-// import AppBar from "@material-ui/core/AppBar";
-// import Toolbar from "@material-ui/core/Toolbar";
-// import IconButton from "@material-ui/core/IconButton";
-// import InputBase from "@material-ui/core/InputBase";
-// import Badge from "@material-ui/core/Badge";
-// import MenuItem from "@material-ui/core/MenuItem";
-// import Menu from "@material-ui/core/Menu";
-// import { withStyles } from "@material-ui/core/styles";
+
 import { Redirect, withRouter, Link } from "react-router-dom";
 // Import Icon
 import MenuIcon from "@material-ui/icons/Menu";
@@ -42,9 +35,10 @@ import { ALL_VIDEOS } from '../redux/action/video'
 import { GET_VIDEOS_BY_CATEGORY } from '../redux/action/video'
 import { GET_VIDEOS_TRENDING } from '../redux/action/video'
 import { GET_VIDEOS_POPULAR } from '../redux/action/video'
+import { ALL_CATEGORIES } from '../redux/action/category'
 import LinearProgress from '@material-ui/core/LinearProgress'
 
-const categories = ["Action", "Drama", "Adventure", "Romance"];
+// const categories = ["Action", "Drama", "Adventure", "Romance"];
 const slides = [
   {
     image: require("../assets/images/1.jpg"),
@@ -133,6 +127,7 @@ class Home extends Component {
     this.props.dispatch(ALL_VIDEOS())
     this.props.dispatch(GET_VIDEOS_TRENDING())
     this.props.dispatch(GET_VIDEOS_POPULAR())
+    this.props.dispatch(ALL_CATEGORIES())
   }
 
   state = {
@@ -205,7 +200,7 @@ class Home extends Component {
         open={isMobileMenuOpenCategory}
         onClose={this.handleMobileMenuCloseCategory}
       >
-        {categories.map((row, i) => (
+        {this.props.categories.results_categories.map((row, i) => (
           <MenuItem>{row}</MenuItem>
         ))}
       </Menu>
@@ -231,10 +226,12 @@ class Home extends Component {
             </IconButton>
 
             <div className={classes.sectionDesktop}>
-              {categories.map((row, i) => (
-                <Button color="inherit" style={{ fontSize: 13 }}>
-                  {row}
+              {this.props.categories.results_categories.slice(0,5).map((row, i) => (
+                <Link to={"detailcategory/"+row.id}>
+                <Button color="inherit" style={{ fontSize: 13, color:"white"}}>
+                  {row.title}
                 </Button>
+                </Link>
               ))}
             </div>
 
@@ -517,6 +514,7 @@ class Home extends Component {
 
 const mapStateToProps = (state) => ({
   videos: state.videoReducer,
+  categories:state.categoryReducer
 })
 
 const ws=withStyles(styles)(Home);

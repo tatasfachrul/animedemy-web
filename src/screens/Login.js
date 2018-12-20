@@ -1,12 +1,12 @@
 import React, { Component } from "react";
 import axios from "axios";
 import { Redirect, withRouter, Link } from "react-router-dom";
+import {ip} from "../setServer"
 class Login extends Component {
   handlesubmit = async e => {
     e.preventDefault();
     const email = e.target.username.value;
     const password = e.target.password.value;
-	  const hostServer = "192.168.1.116:3333";
 	// const hostServer = "192.168.43.208:3333";
     let err = false;
     let res = null;
@@ -14,7 +14,7 @@ class Login extends Component {
     //console.log(email+password);
 
     try {
-      res = await axios.post(`http://${hostServer}/api/v1/login`, {
+      res = await axios.post(ip+'api/v1/login', {
         email: email,
         password: password
       });

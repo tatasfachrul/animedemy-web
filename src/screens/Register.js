@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import mainLogo from "./../img/ANIMEDEMY.png";
 import axios from "axios";
 import { Redirect, withRouter } from "react-router-dom";
-
+import {ip} from "../setServer"
 class Register extends Component {
   handleSubmit = async e => {
     e.preventDefault();
@@ -11,7 +11,7 @@ class Register extends Component {
     const passR = e.target.passwordR.value;
     const username = e.target.username.value;
     const name = e.target.name.value;
-	const hostServer = "192.168.1.116:3333";
+	
 	// const hostServer = "192.168.43.208:3333";
 
     let err = false;
@@ -21,7 +21,7 @@ class Register extends Component {
       if (pass != passR) {
         alert("konfirmasi password salah");
       } else {
-        res = await axios.post(`http://${hostServer}api/v1/register`, {
+        res = await axios.post(ip+'api/v1/register', {
           username: username,
           name: name,
           password: pass,
