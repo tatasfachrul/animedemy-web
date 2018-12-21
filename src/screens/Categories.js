@@ -153,7 +153,7 @@ const styles = theme => ({
   }
 });
 
-class Detail extends Component {
+class Categories extends Component {
   state = {
     mobileMenuCategory: null,
     mobileMoreAnchorEl: null
