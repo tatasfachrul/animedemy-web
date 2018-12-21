@@ -19,6 +19,7 @@ import PlayArrow from "@material-ui/icons/PlayArrow";
 import Add from "@material-ui/icons/Add";
 
 import "react-responsive-carousel/lib/styles/carousel.min.css";
+import "video-react/dist/video-react.css";
 import { Carousel } from "react-responsive-carousel";
 
 import BackgroundShadow from "./components/BackgroundShadow";
@@ -30,80 +31,22 @@ import Slider from "react-slick";
 
 import GridList from "@material-ui/core/GridList";
 import GridListTile from "@material-ui/core/GridListTile";
-import Paper from '@material-ui/core/Paper';
-import Grid from '@material-ui/core/Grid';
+import Paper from "@material-ui/core/Paper";
+import Grid from "@material-ui/core/Grid";
 
+import { Player } from 'video-react';
 
 const categories = ["Action", "Drama", "Adventure", "Romance"];
-const slides = [
-  {
-    image: require("../assets/images/1.jpg"),
-    title: "Naruto Shippuden Eps 1",
-    series: "Naruto",
-    description: "Naruto Jiraiya Kakashi Tsunade Iruka Sasuke"
-  },
-  {
-    image: require("../assets/images/1.jpg"),
-    title: "Naruto Shippuden Eps 1",
-    series: "Naruto",
-    description: "Naruto Jiraiya Kakashi Tsunade Iruka Sasuke"
-  },
-  {
-    image: require("../assets/images/1.jpg"),
-    title: "Naruto Shippuden Eps 1",
-    series: "Naruto",
-    description: "Naruto Jiraiya Kakashi Tsunade Iruka Sasuke"
-  }
-];
+
 const detail = {
   series: "Naruto",
-  image: require("../assets/images/ANIMEDEMY.png"),
+  image: require("../assets/images/blank_image.png"),
   description:
     "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin efficitur diam sed nunc porttitor cursus. Pellentesque auctor fringilla ligula, sed tincidunt diam mattis eleifend. Fusce in ante lectus. Etiam nisl nibh, volutpat vel sodales at, finibus vel massa. Nullam turpis lectus, semper vel nunc et, fringilla egestas quam. Sed vel orci mauris. Phasellus turpis ipsum, viverra non justo ut, scelerisque consequat elit. Quisque tincidunt mattis metus cursus pretium."
 };
-
+const url_video =
+  "http://localhost/trailer_hd.mp4";
 const movies = [
-  {
-    series: "Naruto",
-    category: "Action",
-    videos: [
-      {
-        title: "Naruto Eps 1",
-        imbd_score: 9.0,
-        image: require("../assets/images/1.jpg")
-      },
-      {
-        title: "Naruto Eps 2",
-        imbd_score: 8.0,
-        image: require("../assets/images/1.jpg")
-      },
-      {
-        title: "Naruto Eps 3",
-        imbd_score: 8.0,
-        image: require("../assets/images/1.jpg")
-      },
-      {
-        title: "Naruto Eps 4",
-        imbd_score: 9.0,
-        image: require("../assets/images/1.jpg")
-      },
-      {
-        title: "Naruto Eps 5",
-        imbd_score: 8.5,
-        image: require("../assets/images/1.jpg")
-      },
-      {
-        title: "Naruto Eps 6",
-        imbd_score: 9.0,
-        image: require("../assets/images/1.jpg")
-      },
-      {
-        title: "Naruto Eps 7",
-        imbd_score: 9.0,
-        image: require("../assets/images/1.jpg")
-      }
-    ]
-  },
   {
     series: "Naruto",
     category: "Adventure",
@@ -205,9 +148,9 @@ const styles = theme => ({
   },
   paper: {
     padding: theme.spacing.unit * 2,
-    textAlign: 'center',
-    color: theme.palette.text.secondary,
-  },
+    textAlign: "center",
+    color: theme.palette.text.secondary
+  }
 });
 
 class Detail extends Component {
@@ -362,59 +305,81 @@ class Detail extends Component {
         <div style={{ marginTop: 10, flexDirection: "row", flex: 1 }}>
           {/* Profile Image Section */}
 
-          
-         
-          
+          {/* Logo */}
           <Grid container spacing={8}>
-        {/* Logo */}
-        <Grid item xs={8} sm={2}>
-          <img
-            src={detail.image}
-            alt=""
-            style={{
-              paddingLeft: 40,
-              paddingRight: 40,
-              border: 20,
-              backdropFilter: "#ff5c33",
-              height: "100%",
-              width: "100%"
-            }}
-          />  
-        </Grid>
-        {/* Title series & Description */}
-        <Grid item xs={8} sm={8}>
-          <div><h2>{detail.series}</h2></div>
-          <div><h5>{detail.description}</h5></div>
-        </Grid>
+            {/* Logo */}
+            <Grid item xs={8} sm={2}>
+              <img
+                src={detail.image}
+                alt=""
+                style={{
+                  paddingLeft: 40,
+                  paddingRight: 40,
+                  border: 20,
+                  backdropFilter: "#ff5c33",
+                  height: "100%",
+                  width: "100%"
+                }}
+              />
+            </Grid>
 
-        <Grid item xs={8} sm={2}>
-        <h1>4.7/5</h1>
-        <h4>Score Rating!</h4>
-        </Grid>
-       
-      </Grid>
+            {/* Title series & Description */}
+            <Grid item xs={8} sm={8}>
+              <div >
+                <h2 style={{color: `white`}}>{detail.series}</h2>
+              </div>
+              <div>
+                <h5 style={{color: `white`}}>{detail.description}</h5>
+              </div>
+            </Grid>
+
+            <Grid item xs={8} sm={2} >
+              <h1 style={{color: `white`}}>4.7/5</h1>
+              <h4 style={{color: `white`}}>Score Rating!</h4>
+            </Grid>
+          </Grid>
         </div>
 
-        {/* Slider Category */}
+        {/* Video Player */}
+        <Grid container spacing={8} justify="center" alignItems="center" style={{padding: 40 }}>
+        <Grid item spacing={8} xs={12}>
+          {/* <iframe
+            width="100%"
+            height="50%"
+            xs={12}
+            src={url_video}
+            frameborder="0"
+          /> */}
+          <Player
+            playsInline
+            src={url_video}
+          >
+          </Player>
+          </Grid>
+        </Grid>
+
+        {/* Episode Section */}
         <div style={{ background: "linear-gradient( #000000, #1a222e)" }}>
           <div style={{ paddingLeft: 40, paddingRight: 40 }}>
-            {movies.map((row, i) => (
-              <div style={{ marginTop: 30 }}>
-                <h2 style={{ margin: 10, color: "#fff", fontWeight: "normal" }}>
-                  {row.category}
-                </h2>
-                <Slider {...settings}>
-                  {row.videos.map((item, i) => (
-                    <div style={{ position: "absolute" }}>
-                      <img
-                        src={item.image}
-                        style={{ height: 150, width: "98%" }}
-                      />
-                    </div>
-                  ))}
-                </Slider>
-              </div>
-            ))}
+            <Grid container spacing={8} justify="center" alignItems="center">
+              {/* {movies.videos.map((episode, i) => ( */}
+              <Grid item xs={4} />
+
+              <Grid item xs={4}>
+              <Paper className={classes.paper}>Episode 1</Paper>
+              </Grid>
+
+              <Grid item xs={4} />
+              {/* ))}             */}
+
+              <Grid item xs={4} />
+
+              <Grid item xs={4}>
+              <Paper className={classes.paper}>Episode 2</Paper>
+              </Grid>
+
+              <Grid item xs={4} />
+            </Grid>
           </div>
 
           {/* Footer Section */}

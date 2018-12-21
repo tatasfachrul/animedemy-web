@@ -10,10 +10,10 @@
     "jquery": "^3.3.1",
     "material-ui-image": "^3.0.3",
     "mdbreact": "^4.8.5-patch.1",
-    "react": "^16.6.3",
+    "react": "^16.7.0",
     "react-animated-slider": "^1.1.4",
     "react-bootstrap": "^0.32.4",
-    "react-dom": "^16.6.3",
+    "react-dom": "^16.7.0",
     "react-flexview": "^4.0.1",
     "react-jw-player": "^1.19.0",
     "react-redux": "^6.0.0",
@@ -25,7 +25,8 @@
     "redux": "^4.0.1",
     "redux-promise-middleware": "^5.1.1",
     "simple-flexbox": "^1.2.0",
-    "slick-carousel": "^1.8.1"
+    "slick-carousel": "^1.8.1",
+    "video-react": "^0.13.1"
   },
   "scripts": {
     "start": "PORT=3001 react-scripts start",
