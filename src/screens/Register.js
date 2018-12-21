@@ -1,8 +1,9 @@
 import React, { Component } from "react";
-import mainLogo from "./../img/ANIMEDEMY.png";
+
 import axios from "axios";
-import { Redirect, withRouter } from "react-router-dom";
+import { Redirect, withRouter, Link} from "react-router-dom";
 import {ip} from "../setServer"
+
 class Register extends Component {
   handleSubmit = async e => {
     e.preventDefault();
@@ -35,6 +36,7 @@ class Register extends Component {
     if (err) {
       alert("gagal registrasi");
     } else {
+
       alert("sukses registrasi");
       return this.props.history.push("/");
     }
@@ -52,13 +54,14 @@ class Register extends Component {
             "url(http://3.bp.blogspot.com/-OlHVbclWofM/WUHHAo9cZeI/AAAAAAAAGCI/xx9R8nVEnlIOe16iHvUXfsRseYTdgYp5ACHMYBhgL/s1600/tmc18-anime-background-wallpaper-anime-images-in-high-quality.jpg)"
         }}
       >
+        <Link to="/">
         <div style={{ marginTop: -50 }}>
           <img
             style={{ marginLeft: 40, height: 200, width: 200 }}
             src={require("../img/ANIMEDEMY.png")}
           />
         </div>
-
+        </Link>
         <div
           className="container"
           style={{

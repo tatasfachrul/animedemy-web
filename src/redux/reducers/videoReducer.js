@@ -21,7 +21,7 @@ export default function videoReducer(state=initialState, action){
       case "GET_VIDEO_PENDING":
           return {...state, isLoading:true}
       case "GET_VIDEO_FULFILLED":
-          return {...state, isLoading:false,results_result_video: action.payload.data}
+          return {...state, isLoading:false,results_video: action.payload.data}
       case "GET_VIDEO_REJECTED":
           return {...state, isLoading:false, isError:true}
 
@@ -29,7 +29,7 @@ export default function videoReducer(state=initialState, action){
       case "GET_VIDEOS_BY_CATEGORY_PENDING":
           return {...state, isLoading:true}
       case "GET_VIDEOS_BY_CATEGORY_FULFILLED":
-          return {...state, isLoading:false,results_result_videos_category: action.payload.data}
+          return {...state, isLoading:false, results_videos_category: action.payload.data}
       case "GET_VIDEOS_BY_CATEGORY_REJECTED":
           return {...state, isLoading:false, isError:true}
 

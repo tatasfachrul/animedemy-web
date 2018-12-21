@@ -37,7 +37,7 @@ import { GET_VIDEOS_TRENDING } from '../redux/action/video'
 import { GET_VIDEOS_POPULAR } from '../redux/action/video'
 import { ALL_CATEGORIES } from '../redux/action/category'
 import LinearProgress from '@material-ui/core/LinearProgress'
-
+import {ip} from "../setServer"
 // const categories = ["Action", "Drama", "Adventure", "Romance"];
 const slides = [
   {
@@ -128,11 +128,62 @@ class Home extends Component {
     this.props.dispatch(GET_VIDEOS_TRENDING())
     this.props.dispatch(GET_VIDEOS_POPULAR())
     this.props.dispatch(ALL_CATEGORIES())
+    //console.log(localStorage.getItem('token'))
+    this.setLoginStatus()
+  }
+  handleLogout()
+  {
+    localStorage.removeItem("token")
+    window.location.href='/';
+  }
+
+  setLoginStatus()
+  {
+    console.log(localStorage.getItem('token'))
+      var ls=localStorage.getItem('token')
+      if(ls===null)
+      {
+        //show btn login
+          return (
+            <Link to="/login">
+            <Button
+              style={{
+                fontWeight: "normal",
+                backgroundColor: "transparent",
+                color: "#fff",
+                fontSize: 12
+              }}
+            >
+              <AccountCircle /> &nbsp; Login
+            </Button>
+            </Link>
+          )
+      }
+      else
+      {
+          //show btn logout
+          return (
+            
+              <Button
+                style={{
+                  fontWeight: "normal",
+                  backgroundColor: "transparent",
+                  color: "#fff",
+                  fontSize: 12
+                }}
+                onClick={this.handleLogout}
+              >
+                <AccountCircle /> &nbsp; Logout
+              </Button>
+              
+          )
+      }
   }
 
   state = {
     mobileMenuCategory: null,
-    mobileMoreAnchorEl: null
+    mobileMoreAnchorEl: null,
+    ls:""
   };
 
   handleMobileMenuOpenCategory = event => {
@@ -210,13 +261,16 @@ class Home extends Component {
       <div className={classes.root}>
         <AppBar position="static" className={classes.header}>
           <Toolbar>
+          <Link to="/">
             <div className={classes.divImageHeader}>
+            
               <img
                 src={require("../assets/images/ANIMEDEMY.png")}
                 style={{ width: "inherit", height: "inherit" }}
               />
+              
             </div>
-
+            </Link>
             <IconButton
               className={classes.sectionMobile}
               color="inherit"
@@ -248,6 +302,7 @@ class Home extends Component {
             </div>
 
             <div className={classes.sectionDesktop}>
+                {/* <Link to="/login">
               <Button
                 style={{
                   fontWeight: "normal",
@@ -258,17 +313,9 @@ class Home extends Component {
               >
                 <NotificationsIcon /> &nbsp; Subscribe
               </Button>
+              </Link> */}
               &nbsp;
-              <Button
-                style={{
-                  fontWeight: "normal",
-                  backgroundColor: "transparent",
-                  color: "#fff",
-                  fontSize: 12
-                }}
-              >
-                <AccountCircle /> &nbsp; Login
-              </Button>
+                {this.setLoginStatus()}
             </div>
 
             <div className={classes.sectionMobile}>
@@ -436,6 +483,24 @@ class Home extends Component {
                 </Slider>
               </div>
             }
+
+            {/* slider category*/}
+            {
+              <div style={{ marginTop: 30 }}>
+                <h2 style={{ margin: 10, color: "#fff", fontWeight: "normal", marginBottom:30}}>
+                  Category List
+                </h2>
+                <Slider {...settings}>
+                  {this.props.categories.results_categories.map((item, i) => (
+                    <div style={{ position: "absolute", backgroundColor:"gray"}}>
+                      <Link to={"/detailcategory/"+item.id}>
+                        <p style={{color:"white", fontSize:20, textAlign:"center"}}>{item.title}</p>
+                      </Link>
+                    </div>
+                  ))}
+                </Slider>
+              </div>
+            }
           </div>
 
 
@@ -516,7 +581,8 @@ const mapStateToProps = (state) => ({
   videos: state.videoReducer,
   categories:state.categoryReducer
 })
+const Hm=withRouter(Home);
+const ws=withStyles(styles)(Hm);
 
-const ws=withStyles(styles)(Home);
 export default connect(mapStateToProps)(ws)
 

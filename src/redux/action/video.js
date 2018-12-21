@@ -1,5 +1,6 @@
 import axios from 'axios'
 import {ip} from "../../setServer"
+import { resolve } from 'q';
 export function ALL_VIDEOS(){
   return {
     type:"ALL_VIDEOS",
@@ -15,9 +16,10 @@ export function GET_VIDEO(id){
 }
 
 export function GET_VIDEOS_BY_CATEGORY(id){
-  return {
+  
+    return {
       type:"GET_VIDEOS_BY_CATEGORY",
-      payload:axios.get(ip+'api/v1/video/category/'+id)
+      payload:axios.get(ip+'api/v1/videos/category/'+id)
   }
 }
 

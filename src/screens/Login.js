@@ -30,7 +30,7 @@ class Login extends Component {
       localStorage.setItem("token", res.data.token);
       localStorage.setItem("refreshToken", res.data.refreshToken);
       //console.log(localStorage.getItem("token")+localStorage.getItem("refreshToken"))
-      return this.props.history.push("/home");
+      return this.props.history.push("/");
     }
   };
 
@@ -47,13 +47,14 @@ class Login extends Component {
             "url(http://3.bp.blogspot.com/-OlHVbclWofM/WUHHAo9cZeI/AAAAAAAAGCI/xx9R8nVEnlIOe16iHvUXfsRseYTdgYp5ACHMYBhgL/s1600/tmc18-anime-background-wallpaper-anime-images-in-high-quality.jpg)"
         }}
       >
+      <Link to="/">
         <div style={{ marginTop: -50 }}>
           <img
             style={{ marginLeft: 40, height: 200, width: 200 }}
             src={require("../img/ANIMEDEMY.png")}
           />
         </div>
-
+        </Link>
         <div
           className="container"
           style={{
