@@ -306,9 +306,9 @@ class Detail extends Component {
           {/* Profile Image Section */}
 
           {/* Logo */}
-          <Grid container spacing={8}>
+          <Grid container spacing={8} justify="center" alignItems="center">
             {/* Logo */}
-            <Grid item xs={8} sm={2}>
+            <Grid item xs={8} sm={3}>
               <img
                 src={detail.image}
                 alt=""
@@ -317,14 +317,14 @@ class Detail extends Component {
                   paddingRight: 40,
                   border: 20,
                   backdropFilter: "#ff5c33",
-                  height: "100%",
+                  height: "600",
                   width: "100%"
                 }}
               />
             </Grid>
 
             {/* Title series & Description */}
-            <Grid item xs={8} sm={8}>
+            <Grid item xs={8} sm={7}>
               <div >
                 <h2 style={{color: `white`}}>{detail.series}</h2>
               </div>
