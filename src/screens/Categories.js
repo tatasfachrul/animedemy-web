@@ -421,10 +421,6 @@ class Detail extends Component {
   }
 }
 
-<<<<<<< HEAD
-export default withStyles(styles)(Detail);
-=======
 
 
 export default withStyles(Categories);
->>>>>>> fe82261f9cf61a2c6ddd652c370b5f9411ea46fa
