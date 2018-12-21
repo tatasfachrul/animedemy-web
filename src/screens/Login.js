@@ -1,20 +1,20 @@
 import React, { Component } from "react";
 import axios from "axios";
 import { Redirect, withRouter, Link } from "react-router-dom";
+import {ip} from "../setServer"
 class Login extends Component {
   handlesubmit = async e => {
     e.preventDefault();
     const email = e.target.username.value;
     const password = e.target.password.value;
-	  // const hostServer = "192.168.1.116:3333";
-	const hostServer = "192.168.43.208:3333";
+	// const hostServer = "192.168.43.208:3333";
     let err = false;
     let res = null;
 
     //console.log(email+password);
 
     try {
-      res = await axios.post(`http://${hostServer}/api/v1/login`, {
+      res = await axios.post(ip+'api/v1/login', {
         email: email,
         password: password
       });
@@ -30,7 +30,7 @@ class Login extends Component {
       localStorage.setItem("token", res.data.token);
       localStorage.setItem("refreshToken", res.data.refreshToken);
       //console.log(localStorage.getItem("token")+localStorage.getItem("refreshToken"))
-      return this.props.history.push("/home");
+      return this.props.history.push("/");
     }
   };
 
@@ -47,13 +47,14 @@ class Login extends Component {
             "url(http://3.bp.blogspot.com/-OlHVbclWofM/WUHHAo9cZeI/AAAAAAAAGCI/xx9R8nVEnlIOe16iHvUXfsRseYTdgYp5ACHMYBhgL/s1600/tmc18-anime-background-wallpaper-anime-images-in-high-quality.jpg)"
         }}
       >
+      <Link to="/">
         <div style={{ marginTop: -50 }}>
           <img
             style={{ marginLeft: 40, height: 200, width: 200 }}
             src={require("../img/ANIMEDEMY.png")}
           />
         </div>
-
+        </Link>
         <div
           className="container"
           style={{

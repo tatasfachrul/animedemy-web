@@ -1,25 +1,22 @@
 import React, { Component } from "react";
-import AppBar from "@material-ui/core/AppBar";
-import Toolbar from "@material-ui/core/Toolbar";
-import IconButton from "@material-ui/core/IconButton";
-import InputBase from "@material-ui/core/InputBase";
-import Badge from "@material-ui/core/Badge";
-import MenuItem from "@material-ui/core/MenuItem";
-import Menu from "@material-ui/core/Menu";
-import { withStyles } from "@material-ui/core/styles";
+
+// Import core component
+import { AppBar, Toolbar, IconButton, InputBase, MenuItem, Menu, Badge, withStyles } from "@material-ui/core";
+
+import { Redirect, withRouter, Link } from "react-router-dom";
+// Import Icon
 import MenuIcon from "@material-ui/icons/Menu";
 import SearchIcon from "@material-ui/icons/Search";
 import AccountCircle from "@material-ui/icons/AccountCircle";
-import MailIcon from "@material-ui/icons/Mail";
 import NotificationsIcon from "@material-ui/icons/Notifications";
+import MailIcon from "@material-ui/icons/Mail";
 import MoreIcon from "@material-ui/icons/MoreVert";
 import Button from "@material-ui/core/Button";
-
 import PlayArrow from "@material-ui/icons/PlayArrow";
 import Add from "@material-ui/icons/Add";
 
+// Import Carousel
 import "react-responsive-carousel/lib/styles/carousel.min.css";
-import "video-react/dist/video-react.css";
 import { Carousel } from "react-responsive-carousel";
 
 import BackgroundShadow from "./components/BackgroundShadow";
@@ -31,72 +28,46 @@ import Slider from "react-slick";
 
 import GridList from "@material-ui/core/GridList";
 import GridListTile from "@material-ui/core/GridListTile";
-import Paper from "@material-ui/core/Paper";
-import Grid from "@material-ui/core/Grid";
 
-import { Player } from 'video-react';
-
-const categories = ["Action", "Drama", "Adventure", "Romance"];
-
-const detail = {
-  series: "Naruto",
-  image: require("../assets/images/blank_image.png"),
-  description:
-    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin efficitur diam sed nunc porttitor cursus. Pellentesque auctor fringilla ligula, sed tincidunt diam mattis eleifend. Fusce in ante lectus. Etiam nisl nibh, volutpat vel sodales at, finibus vel massa. Nullam turpis lectus, semper vel nunc et, fringilla egestas quam. Sed vel orci mauris. Phasellus turpis ipsum, viverra non justo ut, scelerisque consequat elit. Quisque tincidunt mattis metus cursus pretium."
-};
-const url_video =
-  "http://localhost/trailer_hd.mp4";
-const movies = [
+// Import another file
+import { connect } from 'react-redux'
+import { ALL_CATEGORIES } from '../redux/action/category'
+import {GET_VIDEOS_BY_CATEGORY} from '../redux/action/video'
+import LinearProgress from '@material-ui/core/LinearProgress'
+import {ip} from "../setServer"
+// const categories = ["Action", "Drama", "Adventure", "Romance"];
+const slides = [
   {
-    series: "Naruto",
-    category: "Adventure",
-    videos: [
-      {
-        title: "Naruto Eps 1",
-        imbd_score: 9.0,
-        image: require("../assets/images/1.jpg")
-      },
-      {
-        title: "Naruto Eps 2",
-        imbd_score: 8.0,
-        image: require("../assets/images/1.jpg")
-      },
-      {
-        title: "Naruto Eps 3",
-        imbd_score: 8.0,
-        image: require("../assets/images/1.jpg")
-      },
-      {
-        title: "Naruto Eps 4",
-        imbd_score: 9.0,
-        image: require("../assets/images/1.jpg")
-      },
-      {
-        title: "Naruto Eps 5",
-        imbd_score: 8.5,
-        image: require("../assets/images/1.jpg")
-      },
-      {
-        title: "Naruto Eps 6",
-        imbd_score: 9.0,
-        image: require("../assets/images/1.jpg")
-      },
-      {
-        title: "Naruto Eps 7",
-        imbd_score: 9.0,
-        image: require("../assets/images/1.jpg")
-      }
-    ]
+    image: require("../assets/images/1.jpg"),
+    series: "Naruto Shippuden",
+    title: "Complete",
+    description: " ",
+    id:0
+  },
+  {
+    image: require("../assets/images/2.jpg"),
+    series: "ONE PIECE",
+    title: "Ongoing",
+    description: " ",
+    id:0
+  },
+  {
+    image: require("../assets/images/3.jpg"),
+    series: "BLACK CLOVER",
+    title: "Ongoing",
+    description: " ",
+    id:0
   }
 ];
+
 const styles = theme => ({
   root: {
     width: "100%",
     backgroundColor: "#000000"
   },
   header: {
-    backgroundColor: "rgba(0,0,0,0.5)"
-    // position: "absolute"
+    backgroundColor: "rgba(0,0,0,0.5)",
+    position: "fixed"
   },
   grow: {
     flexGrow: 1
@@ -145,18 +116,70 @@ const styles = theme => ({
     [theme.breakpoints.up("md")]: {
       display: "none"
     }
-  },
-  paper: {
-    padding: theme.spacing.unit * 2,
-    textAlign: "center",
-    color: theme.palette.text.secondary
   }
 });
 
-class Detail extends Component {
+class Home extends Component {
+  componentDidMount(){
+    
+ this.props.dispatch(ALL_CATEGORIES())
+ this.props.dispatch(GET_VIDEOS_BY_CATEGORY(this.props.match.params.id))
+    console.log(this.props.match)
+    this.setLoginStatus()
+  }
+  handleLogout()
+  {
+    localStorage.removeItem("token")
+    window.location.href='/';
+  }
+
+  setLoginStatus()
+  {
+    console.log(localStorage.getItem('token'))
+      var ls=localStorage.getItem('token')
+      if(ls===null)
+      {
+        //show btn login
+          return (
+            <Link to="/login">
+            <Button
+              style={{
+                fontWeight: "normal",
+                backgroundColor: "transparent",
+                color: "#fff",
+                fontSize: 12
+              }}
+            >
+              <AccountCircle /> &nbsp; Login
+            </Button>
+            </Link>
+          )
+      }
+      else
+      {
+          //show btn logout
+          return (
+            
+              <Button
+                style={{
+                  fontWeight: "normal",
+                  backgroundColor: "transparent",
+                  color: "#fff",
+                  fontSize: 12
+                }}
+                onClick={this.handleLogout}
+              >
+                <AccountCircle /> &nbsp; Logout
+              </Button>
+              
+          )
+      }
+  }
+
   state = {
     mobileMenuCategory: null,
-    mobileMoreAnchorEl: null
+    mobileMoreAnchorEl: null,
+    ls:""
   };
 
   handleMobileMenuOpenCategory = event => {
@@ -175,7 +198,23 @@ class Detail extends Component {
     this.setState({ mobileMoreAnchorEl: null });
   };
 
+  findArray()
+  {
+    var i=this.props.categories.results_categories.find(this.props.match.params.id)
+    return i.title
+  }
+  // found = array1.find(function(element) {
+  //   return element > 10;
+  // });
+
   render() {
+    {if(this.props.categories.isloading)
+      {
+        return <LinearProgress />
+      }
+      else
+      {
+    console.log(this.props)
     const { mobileMenuCategory, mobileMoreAnchorEl } = this.state;
     const isMobileMenuOpenCategory = Boolean(mobileMenuCategory);
     const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
@@ -217,7 +256,7 @@ class Detail extends Component {
         open={isMobileMenuOpenCategory}
         onClose={this.handleMobileMenuCloseCategory}
       >
-        {categories.map((row, i) => (
+        {this.props.categories.results_categories.map((row, i) => (
           <MenuItem>{row}</MenuItem>
         ))}
       </Menu>
@@ -225,16 +264,17 @@ class Detail extends Component {
 
     return (
       <div className={classes.root}>
-        {/* Header Section */}
         <AppBar position="static" className={classes.header}>
           <Toolbar>
+          <Link to="/">
             <div className={classes.divImageHeader}>
+              
               <img
                 src={require("../assets/images/ANIMEDEMY.png")}
                 style={{ width: "inherit", height: "inherit" }}
               />
             </div>
-
+            </Link>
             <IconButton
               className={classes.sectionMobile}
               color="inherit"
@@ -244,10 +284,12 @@ class Detail extends Component {
             </IconButton>
 
             <div className={classes.sectionDesktop}>
-              {categories.map((row, i) => (
-                <Button color="inherit" style={{ fontSize: 13 }}>
-                  {row}
+              {this.props.categories.results_categories.slice(0,5).map((row, i) => (
+                <a href={"/detailcategory/"+row.id}>
+                <Button color="inherit" style={{ fontSize: 13, color:"white"}}>
+                  {row.title}
                 </Button>
+                </a>
               ))}
             </div>
 
@@ -264,6 +306,7 @@ class Detail extends Component {
             </div>
 
             <div className={classes.sectionDesktop}>
+                {/* <Link to="/login">
               <Button
                 style={{
                   fontWeight: "normal",
@@ -274,17 +317,9 @@ class Detail extends Component {
               >
                 <NotificationsIcon /> &nbsp; Subscribe
               </Button>
+              </Link> */}
               &nbsp;
-              <Button
-                style={{
-                  fontWeight: "normal",
-                  backgroundColor: "transparent",
-                  color: "#fff",
-                  fontSize: 12
-                }}
-              >
-                <AccountCircle /> &nbsp; Login
-              </Button>
+                {this.setLoginStatus()}
             </div>
 
             <div className={classes.sectionMobile}>
@@ -301,57 +336,52 @@ class Detail extends Component {
         {renderMobileMenu}
         {renderMobileMenuCategory}
 
-        {/* Body Section */}
-        <div style={{ marginTop: 10, flexDirection: "row", flex: 1 }}>
-          {/* Profile Image Section */}
-
-          {/* Logo */}
-         
-
-            {/* Title series & Description */}
-            
-        </div>
-
         
 
-        {/* Categories Section */}
-        <div style={{ background: "linear-gradient( #000000, #1a222e)" }}>
-          <div style={{ paddingLeft: 40, paddingRight: 40 }}>
-            <Grid container spacing={8} justify="center" alignItems="center">
-              {/* {movies.videos.map((episode, i) => ( */}
-              <Grid item xs={4}>
-              <Paper className={classes.paper}>Category 1</Paper>
-              </Grid>
-              <Grid item xs={4}>
-              <Paper className={classes.paper}>Category 2</Paper>
-              </Grid>
-              <Grid item xs={4}>
-              <Paper className={classes.paper}>Category 3</Paper>
-              </Grid>
-              <Grid item xs={4}>
-              <Paper className={classes.paper}>Category 4</Paper>
-              </Grid>
-              <Grid item xs={4}>
-              <Paper className={classes.paper}>Category 5</Paper>
-              </Grid>
-              <Grid item xs={4}>
-              <Paper className={classes.paper}>Category 6</Paper>
-              </Grid>
-              <Grid item xs={4}>
-              <Paper className={classes.paper}>Category 7</Paper>
-              </Grid>
-              <Grid item xs={4}>
-              <Paper className={classes.paper}>Category 8</Paper>
-              </Grid>
-              <Grid item xs={4}>
-              <Paper className={classes.paper}>Category 9</Paper>
-              </Grid>
+        {/* <div>
+            {this.props.videos.results.map((video)=>(
+                    <img src={{uri:"http://i.ytimg.com/vi/C9x0m3Z1qeA/hqdefault.jpg"}}/>
+            ))}
 
+        </div> */}
               
-            </Grid>
-          </div>
+        <div style={{ background: "linear-gradient( #000000, #1a222e)" }}>
+          <div style={{ paddingLeft: 40, paddingRight: 40,}}>
+           
 
-          {/* Footer Section */}
+            {/* slider category*/}
+            {
+              <div style={{paddingTop:50}}>
+                <h2 style={{color: "#fff", fontWeight: "normal", marginBottom:30}}>
+                  Category List {this.props.match.params.id}
+                </h2>
+                <Slider {...settings}>
+                  {this.props.categories.results_categories.map((item, i) => (
+                    <div style={{ position: "bsolute", backgroundColor:"gray"}}>
+                      <Link to={"/detailcategory/"+item.id}>
+                        <p style={{color:"white", fontSize:20, textAlign:"center"}}>{item.title}</p>
+                      </Link>
+                    </div>
+                  ))}
+                </Slider>
+              </div>
+            }
+          </div>
+            
+          
+          <div>
+            <GridList cols={12}>
+            {this.props.videos.results_videos_category.map((row, i) => (
+              <GridListTile cols={3} key={i} style={{margin: 0}}>
+                <div style={{backgroundColor: '#fff'}}>
+                <img src={row.image_url} style={{ height: 150, width: "100%" }}/>
+                <p style={{color:'#333333', textAlign: 'center', fontSize: 20}}>{row.title}</p>
+                </div>
+              </GridListTile>
+            ))}
+            </GridList>
+          </div>
+             
           <div>
             <GridList
               cols={12}
@@ -418,13 +448,18 @@ class Detail extends Component {
         </div>
       </div>
     );
+    
+  }
+}
   }
 }
 
-<<<<<<< HEAD
-export default withStyles(styles)(Detail);
-=======
+const mapStateToProps = (state) => ({
+  categories:state.categoryReducer,
+  videos:state.videoReducer
+})
+const Hm=withRouter(Home);
+const ws=withStyles(styles)(Hm);
 
+export default connect(mapStateToProps)(ws)
 
-export default withStyles(Categories);
->>>>>>> fe82261f9cf61a2c6ddd652c370b5f9411ea46fa

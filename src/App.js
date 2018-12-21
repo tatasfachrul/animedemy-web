@@ -5,7 +5,7 @@ import "./App.css";
 import login from "./screens/Login";
 import register from "./screens/Register";
 import home from "./screens/Home";
-import detail from "./screens/Detail";
+import detail from "./screens/detailCategory";
 import categories from "./screens/Categories";
 
 import store from "./redux/store";
@@ -20,7 +20,7 @@ class App extends Component {
           {/* <Route  exact path="/" component={home} /> */}
           <Route path="/register" component={register} />
           <Route path="/login" component={login} />
-          <Route path="/detail" component={detail} />
+          <Route path="/detailCategory/:id" component={detail} />
           <Route path="/categories" component={categories} />
         </div>
       </Provider>
