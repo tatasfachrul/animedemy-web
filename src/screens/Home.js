@@ -2,15 +2,8 @@ import React, { Component } from "react";
 
 // Import core component
 import { AppBar, Toolbar, IconButton, InputBase, MenuItem, Menu, Badge, withStyles } from "@material-ui/core";
-// import AppBar from "@material-ui/core/AppBar";
-// import Toolbar from "@material-ui/core/Toolbar";
-// import IconButton from "@material-ui/core/IconButton";
-// import InputBase from "@material-ui/core/InputBase";
-// import Badge from "@material-ui/core/Badge";
-// import MenuItem from "@material-ui/core/MenuItem";
-// import Menu from "@material-ui/core/Menu";
-// import { withStyles } from "@material-ui/core/styles";
 
+import { Redirect, withRouter, Link } from "react-router-dom";
 // Import Icon
 import MenuIcon from "@material-ui/icons/Menu";
 import SearchIcon from "@material-ui/icons/Search";
@@ -37,113 +30,39 @@ import GridList from "@material-ui/core/GridList";
 import GridListTile from "@material-ui/core/GridListTile";
 
 // Import another file
-import Header from "./components/Header"
-
-const categories = ["Action", "Drama", "Adventure", "Romance"];
+import { connect } from 'react-redux'
+import { ALL_VIDEOS } from '../redux/action/video'
+import { GET_VIDEOS_BY_CATEGORY } from '../redux/action/video'
+import { GET_VIDEOS_TRENDING } from '../redux/action/video'
+import { GET_VIDEOS_POPULAR } from '../redux/action/video'
+import { ALL_CATEGORIES } from '../redux/action/category'
+import LinearProgress from '@material-ui/core/LinearProgress'
+import {ip} from "../setServer"
+// const categories = ["Action", "Drama", "Adventure", "Romance"];
 const slides = [
   {
     image: require("../assets/images/1.jpg"),
-    title: "Naruto Shippuden Eps 1",
-    series: "Naruto",
-    description: "Naruto Jiraiya Kakashi Tsunade Iruka Sasuke"
+    series: "Naruto Shippuden",
+    title: "Complete",
+    description: " ",
+    id:0
   },
   {
-    image: require("../assets/images/1.jpg"),
-    title: "Naruto Shippuden Eps 1",
-    series: "Naruto",
-    description: "Naruto Jiraiya Kakashi Tsunade Iruka Sasuke"
+    image: require("../assets/images/2.jpg"),
+    series: "ONE PIECE",
+    title: "Ongoing",
+    description: " ",
+    id:0
   },
   {
-    image: require("../assets/images/1.jpg"),
-    title: "Naruto Shippuden Eps 1",
-    series: "Naruto",
-    description: "Naruto Jiraiya Kakashi Tsunade Iruka Sasuke"
+    image: require("../assets/images/3.jpg"),
+    series: "BLACK CLOVER",
+    title: "Ongoing",
+    description: " ",
+    id:0
   }
 ];
-const movies = [
-  {
-    series: "Naruto",
-    category: "Action",
-    videos: [
-      {
-        title: "Naruto Eps 1",
-        imbd_score: 9.0,
-        image: require("../assets/images/1.jpg")
-      },
-      {
-        title: "Naruto Eps 2",
-        imbd_score: 8.0,
-        image: require("../assets/images/1.jpg")
-      },
-      {
-        title: "Naruto Eps 3",
-        imbd_score: 8.0,
-        image: require("../assets/images/1.jpg")
-      },
-      {
-        title: "Naruto Eps 4",
-        imbd_score: 9.0,
-        image: require("../assets/images/1.jpg")
-      },
-      {
-        title: "Naruto Eps 5",
-        imbd_score: 8.5,
-        image: require("../assets/images/1.jpg")
-      },
-      {
-        title: "Naruto Eps 6",
-        imbd_score: 9.0,
-        image: require("../assets/images/1.jpg")
-      },
-      {
-        title: "Naruto Eps 7",
-        imbd_score: 9.0,
-        image: require("../assets/images/1.jpg")
-      }
-    ]
-  },
-  {
-    series: "Naruto",
-    category: "Adventure",
-    videos: [
-      {
-        title: "Naruto Eps 1",
-        imbd_score: 9.0,
-        image: require("../assets/images/1.jpg")
-      },
-      {
-        title: "Naruto Eps 2",
-        imbd_score: 8.0,
-        image: require("../assets/images/1.jpg")
-      },
-      {
-        title: "Naruto Eps 3",
-        imbd_score: 8.0,
-        image: require("../assets/images/1.jpg")
-      },
-      {
-        title: "Naruto Eps 4",
-        imbd_score: 9.0,
-        image: require("../assets/images/1.jpg")
-      },
-      {
-        title: "Naruto Eps 5",
-        imbd_score: 8.5,
-        image: require("../assets/images/1.jpg")
-      },
-      {
-        title: "Naruto Eps 6",
-        imbd_score: 9.0,
-        image: require("../assets/images/1.jpg")
-      },
-      {
-        title: "Naruto Eps 7",
-        imbd_score: 9.0,
-        image: require("../assets/images/1.jpg")
-      }
-    ]
-  }
-];
+
 const styles = theme => ({
   root: {
     width: "100%",
@@ -204,9 +123,67 @@ const styles = theme => ({
 });
 
 class Home extends Component {
+  componentDidMount(){
+    this.props.dispatch(ALL_VIDEOS())
+    this.props.dispatch(GET_VIDEOS_TRENDING())
+    this.props.dispatch(GET_VIDEOS_POPULAR())
+    this.props.dispatch(ALL_CATEGORIES())
+    //console.log(localStorage.getItem('token'))
+    this.setLoginStatus()
+  }
+  handleLogout()
+  {
+    localStorage.removeItem("token")
+    window.location.href='/';
+  }
+
+  setLoginStatus()
+  {
+    console.log(localStorage.getItem('token'))
+      var ls=localStorage.getItem('token')
+      if(ls===null)
+      {
+        //show btn login
+          return (
+            <Link to="/login">
+            <Button
+              style={{
+                fontWeight: "normal",
+                backgroundColor: "transparent",
+                color: "#fff",
+                fontSize: 12
+              }}
+            >
+              <AccountCircle /> &nbsp; Login
+            </Button>
+            </Link>
+          )
+      }
+      else
+      {
+          //show btn logout
+          return (
+            
+              <Button
+                style={{
+                  fontWeight: "normal",
+                  backgroundColor: "transparent",
+                  color: "#fff",
+                  fontSize: 12
+                }}
+                onClick={this.handleLogout}
+              >
+                <AccountCircle /> &nbsp; Logout
+              </Button>
+              
+          )
+      }
+  }
+
   state = {
     mobileMenuCategory: null,
-    mobileMoreAnchorEl: null
+    mobileMoreAnchorEl: null,
+    ls:""
   };
 
   handleMobileMenuOpenCategory = event => {
@@ -226,6 +203,13 @@ class Home extends Component {
   };
 
   render() {
+    {if(this.props.videos.isloading)
+      {
+        return <LinearProgress />
+      }
+      else
+      {
+    console.log(this.props)
     const { mobileMenuCategory, mobileMoreAnchorEl } = this.state;
     const isMobileMenuOpenCategory = Boolean(mobileMenuCategory);
     const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
@@ -267,7 +251,7 @@ class Home extends Component {
         open={isMobileMenuOpenCategory}
         onClose={this.handleMobileMenuCloseCategory}
       >
-        {categories.map((row, i) => (
+        {this.props.categories.results_categories.map((row, i) => (
           <MenuItem>{row}</MenuItem>
         ))}
       </Menu>
@@ -277,13 +261,16 @@ class Home extends Component {
       <div className={classes.root}>
         <AppBar position="static" className={classes.header}>
           <Toolbar>
+          <Link to="/">
             <div className={classes.divImageHeader}>
+            
               <img
                 src={require("../assets/images/ANIMEDEMY.png")}
                 style={{ width: "inherit", height: "inherit" }}
               />
+              
             </div>
-
+            </Link>
             <IconButton
               className={classes.sectionMobile}
               color="inherit"
@@ -293,10 +280,12 @@ class Home extends Component {
             </IconButton>
 
             <div className={classes.sectionDesktop}>
-              {categories.map((row, i) => (
-                <Button color="inherit" style={{ fontSize: 13 }}>
-                  {row}
+              {this.props.categories.results_categories.slice(0,5).map((row, i) => (
+                <Link to={"detailcategory/"+row.id}>
+                <Button color="inherit" style={{ fontSize: 13, color:"white"}}>
+                  {row.title}
                 </Button>
+                </Link>
               ))}
             </div>
 
@@ -313,6 +302,7 @@ class Home extends Component {
             </div>
 
             <div className={classes.sectionDesktop}>
+                {/* <Link to="/login">
               <Button
                 style={{
                   fontWeight: "normal",
@@ -323,17 +313,9 @@ class Home extends Component {
               >
                 <NotificationsIcon /> &nbsp; Subscribe
               </Button>
+              </Link> */}
               &nbsp;
-              <Button
-                style={{
-                  fontWeight: "normal",
-                  backgroundColor: "transparent",
-                  color: "#fff",
-                  fontSize: 12
-                }}
-              >
-                <AccountCircle /> &nbsp; Login
-              </Button>
+                {this.setLoginStatus()}
             </div>
 
             <div className={classes.sectionMobile}>
@@ -361,9 +343,10 @@ class Home extends Component {
             autoPlay={true}
             interval={3000}
           >
+            {/* maps carousel */}
             {slides.map((row, i) => (
               <div>
-                <img src={row.image} />
+                <img style={{height:540}}src={row.image} />
                 <BackgroundShadow />
                 <div
                   style={{
@@ -397,6 +380,7 @@ class Home extends Component {
                   >
                     {row.title}
                   </p>
+                  <Link to={"detaileps/"+row.id}>
                   <Button
                     style={{
                       width: 120,
@@ -405,8 +389,9 @@ class Home extends Component {
                       color: "#fff"
                     }}
                   >
-                    <PlayArrow /> Play
+                    <PlayArrow /> List episode
                   </Button>
+                  </Link>
                   <p
                     style={{
                       fontSize: 20,
@@ -423,26 +408,99 @@ class Home extends Component {
           </Carousel>
         </div>
 
-        
+        {/* <div>
+            {this.props.videos.results.map((video)=>(
+                    <img src={{uri:"http://i.ytimg.com/vi/C9x0m3Z1qeA/hqdefault.jpg"}}/>
+            ))}
+
+        </div> */}
+              
         <div style={{ background: "linear-gradient( #000000, #1a222e)" }}>
           <div style={{ paddingLeft: 40, paddingRight: 40 }}>
-            {movies.map((row, i) => (
+
+            {/* new updates */}
+            {
               <div style={{ marginTop: 30 }}>
                 <h2 style={{ margin: 10, color: "#fff", fontWeight: "normal" }}>
-                  {row.category}
+                  New Updates
                 </h2>
                 <Slider {...settings}>
-                  {row.videos.map((item, i) => (
+                  {this.props.videos.results_videos.map((item, i) => (
                     <div style={{ position: "absolute" }}>
+                      <Link to={"/detailvideos/"+item.id}>
                       <img
-                        src={item.image}
+                        src={item.image_url}
                         style={{ height: 150, width: "98%" }}
                       />
+                      <p style={{color:"white"}}>{item.title}</p>
+                      </Link>
                     </div>
                   ))}
                 </Slider>
               </div>
-            ))}
+            }
+
+            {/* slider popular */}
+            {
+              <div style={{ marginTop: 30 }}>
+                <h2 style={{ margin: 10, color: "#fff", fontWeight: "normal" }}>
+                  Popular
+                </h2>
+                <Slider {...settings}>
+                  {this.props.videos.results_videos_popular.map((item, i) => (
+                    <div style={{ position: "absolute" }}>
+                      <Link to={"/detailvideos/"+item.id}>
+                      <img
+                        src={item.image_url}
+                        style={{ height: 150, width: "98%" }}
+                      />
+                      <p style={{color:"white"}}>{item.title}</p>
+                      </Link>
+                    </div>
+                  ))}
+                </Slider>
+              </div>
+            }
+
+              {/* slider trending*/}
+               {
+              <div style={{ marginTop: 30 }}>
+                <h2 style={{ margin: 10, color: "#fff", fontWeight: "normal" }}>
+                  Trending
+                </h2>
+                <Slider {...settings}>
+                  {this.props.videos.results_videos_trending.map((item, i) => (
+                    <div style={{ position: "absolute" }}>
+                      <Link to={"/detailvideos/"+item.id}>
+                      <img
+                        src={item.image_url}
+                        style={{ height: 150, width: "98%" }}
+                      />
+                      <p style={{color:"white"}}>{item.title}</p>
+                      </Link>
+                    </div>
+                  ))}
+                </Slider>
+              </div>
+            }
+
+            {/* slider category*/}
+            {
+              <div style={{ marginTop: 30 }}>
+                <h2 style={{ margin: 10, color: "#fff", fontWeight: "normal", marginBottom:30}}>
+                  Category List
+                </h2>
+                <Slider {...settings}>
+                  {this.props.categories.results_categories.map((item, i) => (
+                    <div style={{ position: "absolute", backgroundColor:"gray"}}>
+                      <Link to={"/detailcategory/"+item.id}>
+                        <p style={{color:"white", fontSize:20, textAlign:"center"}}>{item.title}</p>
+                      </Link>
+                    </div>
+                  ))}
+                </Slider>
+              </div>
+            }
           </div>
 
 
@@ -513,7 +571,18 @@ class Home extends Component {
         </div>
       </div>
     );
+    
+  }
+}
   }
 }
 
-export default withStyles(styles)(Home);
+const mapStateToProps = (state) => ({
+  videos: state.videoReducer,
+  categories:state.categoryReducer
+})
+const Hm=withRouter(Home);
+const ws=withStyles(styles)(Hm);
+
+export default connect(mapStateToProps)(ws)
+

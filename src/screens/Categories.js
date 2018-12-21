@@ -36,8 +36,6 @@ class Categories extends React.Component {
   }
 }
 
-const mapStateToProps= (state)=> ({
-    movie: state.movie
-})
 
-export default withStyles(mapStateToProps)(Categories);
+
+export default withStyles(Categories);
